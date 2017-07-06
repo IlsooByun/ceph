@@ -307,7 +307,7 @@ void ShardedThreadPool::shardedthreadpool_worker(uint32_t thread_index)
     if (pause_threads) {
       shardedpool_lock.Lock();
       ++num_paused;
-      wait_cond.Signal();
+      wait_cond.SignalOne();
       while (pause_threads) {
        cct->get_heartbeat_map()->reset_timeout(
 	        hb,
@@ -323,7 +323,7 @@ void ShardedThreadPool::shardedthreadpool_worker(uint32_t thread_index)
       shardedpool_lock.Lock();
       if (wq->is_shard_empty(thread_index)) {
         ++num_drained;
-        wait_cond.Signal();
+        wait_cond.SignalOne();
         while (drain_threads) {
 	  cct->get_heartbeat_map()->reset_timeout(
 	    hb,

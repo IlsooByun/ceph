@@ -105,10 +105,7 @@ int RGWGC::list(int *index, string& marker, uint32_t max, bool expired_only, std
     if (ret < 0)
       return ret;
 
-    std::list<cls_rgw_gc_obj_info>::iterator iter;
-    for (iter = entries.begin(); iter != entries.end(); ++iter) {
-      result.push_back(*iter);
-    }
+    result.splice(result.end(), entries);
 
     marker = next_marker;
 
